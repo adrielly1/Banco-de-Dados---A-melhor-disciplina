@@ -22,3 +22,5 @@ GROUP BY a.nome;
 SELECT curso, COUNT(*) as numero_alunosFROM matriculasGROUP BY curso;
 
 SELECT produto, AVG(receita) as media_receitaFROM vendasGROUP BY produto;
+
+SELECT produto, SUM(receita) as receita_totalFROM vendasGROUP BY produtoHAVING receita_total > 10000;
