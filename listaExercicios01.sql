@@ -20,3 +20,5 @@ LEFT JOIN livros l ON a.id = l.autor_id
 GROUP BY a.nome;
 
 SELECT curso, COUNT(*) as numero_alunosFROM matriculasGROUP BY curso;
+
+SELECT produto, AVG(receita) as media_receitaFROM vendasGROUP BY produto;
