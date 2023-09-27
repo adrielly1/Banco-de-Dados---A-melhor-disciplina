@@ -89,3 +89,33 @@ DELIMITER ;
 
 -- Chama a stored procedure para listar livros publicados até o ano de 2010
 CALL sp_LivrosAteAno(2010);
+
+
+DELIMITER //
+
+CREATE PROCEDURE sp_TitulosPorCategoria(IN categoria_nome VARCHAR(100))
+BEGIN
+    DECLARE done INT DEFAULT 0;
+    DECLARE livro_titulo VARCHAR(255);
+    DECLARE cur CURSOR FOR
+        SELECT Livro.Titulo
+        FROM Livro
+        INNER JOIN Categoria ON Livro.Categoria_ID = Categoria.Categoria_ID
+        WHERE Categoria.Nome = categoria_nome;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+
+    OPEN cur;
+    FETCH cur INTO livro_titulo;
+
+    WHILE NOT done DO
+        SELECT livro_titulo AS 'Título do Livro';
+        FETCH cur INTO livro_titulo;
+    END WHILE;
+
+    CLOSE cur;
+END //
+
+DELIMITER ;
+
+-- Chama a stored procedure para extrair títulos da categoria "Romance"
+CALL sp_TitulosPorCategoria('Romance');
