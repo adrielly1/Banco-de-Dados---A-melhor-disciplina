@@ -47,3 +47,30 @@ CALL sp_ContarLivrosPorCategoria('Romance', @resultado);
 
 -- Exibe o resultado
 SELECT @resultado;
+
+
+DELIMITER //
+
+CREATE PROCEDURE sp_VerificarLivrosCategoria(IN categoria_nome VARCHAR(100), OUT possui_livros BOOLEAN)
+BEGIN
+    DECLARE total INT;
+    
+    SELECT COUNT(*) INTO total
+    FROM Livro
+    INNER JOIN Categoria ON Livro.Categoria_ID = Categoria.Categoria_ID
+    WHERE Categoria.Nome = categoria_nome;
+    
+    IF total > 0 THEN
+        SET possui_livros = TRUE;
+    ELSE
+        SET possui_livros = FALSE;
+    END IF;
+END //
+
+DELIMITER ;
+
+-- Chama a stored procedure com a categoria "Romance"
+CALL sp_VerificarLivrosCategoria('Romance', @resultado);
+
+-- Exibe o resultado (0 para "Não possui livros" ou 1 para "Possui livros")
+SELECT @resultado;
