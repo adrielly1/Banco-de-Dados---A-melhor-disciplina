@@ -74,3 +74,18 @@ CALL sp_VerificarLivrosCategoria('Romance', @resultado);
 
 -- Exibe o resultado (0 para "Não possui livros" ou 1 para "Possui livros")
 SELECT @resultado;
+
+
+DELIMITER //
+
+CREATE PROCEDURE sp_LivrosAteAno(IN ano_limite INT)
+BEGIN
+    SELECT Titulo, Ano_Publicacao
+    FROM Livro
+    WHERE Ano_Publicacao <= ano_limite;
+END //
+
+DELIMITER ;
+
+-- Chama a stored procedure para listar livros publicados até o ano de 2010
+CALL sp_LivrosAteAno(2010);
