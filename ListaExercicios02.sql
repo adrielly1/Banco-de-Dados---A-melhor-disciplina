@@ -172,3 +172,10 @@ CALL sp_AutorMaisAntigo(@nome_autor);
 
 -- Exibe o nome do autor mais antigo
 SELECT @nome_autor;
+
+
+-- 9 SELECT Livro.Titulo, CONCAT(Autor.Nome, ' ', Autor.Sobrenome) AS 'Nome do Autor': Esta parte da consulta SQL seleciona o título do livro da tabela "Livro" e concatena o nome e sobrenome do autor da tabela "Autor" em uma única coluna chamada 'Nome do Autor'. Usamos a função CONCAT para combinar o nome e o sobrenome do autor.
+-- FROM Livro: Estamos selecionando dados da tabela "Livro."
+-- INNER JOIN Autor_Livro ON Livro.Livro_ID = Autor_Livro.Livro_ID: Usamos uma junção interna para combinar os registros da tabela "Livro" com os registros da tabela "Autor_Livro" com base na correspondência dos IDs de livro.
+-- INNER JOIN Autor ON Autor_Livro.Autor_ID = Autor.Autor_ID: Continuamos com outra junção interna, ligando os registros da tabela "Autor_Livro" aos registros da tabela "Autor" usando a correspondência dos IDs de autor.
+-- Essa stored procedure retorna uma lista de todos os livros e seus respectivos autores, onde cada linha contém o título do livro e o nome
