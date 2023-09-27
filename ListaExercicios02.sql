@@ -179,3 +179,20 @@ SELECT @nome_autor;
 -- INNER JOIN Autor_Livro ON Livro.Livro_ID = Autor_Livro.Livro_ID: Usamos uma junção interna para combinar os registros da tabela "Livro" com os registros da tabela "Autor_Livro" com base na correspondência dos IDs de livro.
 -- INNER JOIN Autor ON Autor_Livro.Autor_ID = Autor.Autor_ID: Continuamos com outra junção interna, ligando os registros da tabela "Autor_Livro" aos registros da tabela "Autor" usando a correspondência dos IDs de autor.
 -- Essa stored procedure retorna uma lista de todos os livros e seus respectivos autores, onde cada linha contém o título do livro e o nome
+
+
+DELIMITER //
+
+CREATE PROCEDURE sp_LivrosESeusAutores()
+BEGIN
+    -- Seleciona o título do livro, nome e sobrenome do autor
+    SELECT Livro.Titulo, CONCAT(Autor.Nome, ' ', Autor.Sobrenome) AS 'Nome do Autor'
+    FROM Livro
+    INNER JOIN Autor_Livro ON Livro.Livro_ID = Autor_Livro.Livro_ID
+    INNER JOIN Autor ON Autor_Livro.Autor_ID = Autor.Autor_ID;
+END //
+
+DELIMITER ;
+
+-- Chama a stored procedure para listar os livros e seus autores
+CALL sp_LivrosESeusAutores();
