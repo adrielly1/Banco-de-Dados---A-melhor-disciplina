@@ -119,3 +119,38 @@ DELIMITER ;
 
 -- Chama a stored procedure para extrair títulos da categoria "Romance"
 CALL sp_TitulosPorCategoria('Romance');
+
+
+DELIMITER //
+
+CREATE PROCEDURE sp_AdicionarLivro(
+    IN titulo_livro VARCHAR(255),
+    IN editora_id INT,
+    IN ano_publicacao INT,
+    IN numero_paginas INT,
+    IN categoria_id INT,
+    OUT mensagem VARCHAR(255)
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR 1062
+    BEGIN
+        SET mensagem = 'Erro: O título do livro já existe.';
+    END;
+
+    INSERT INTO Livro (Titulo, Editora_ID, Ano_Publicacao, Numero_Paginas, Categoria_ID)
+    VALUES (titulo_livro, editora_id, ano_publicacao, numero_paginas, categoria_id);
+    
+    SET mensagem = 'Livro adicionado com sucesso.';
+END //
+
+DELIMITER ;
+
+-- Tentativa de adicionar um livro com um título existente (deve gerar um erro)
+CALL sp_AdicionarLivro('A Jornada', 1, 2022, 400, 1, @mensagem);
+-- Exibe a mensagem de retorno
+SELECT @mensagem;
+
+-- Tentativa de adicionar um novo livro
+CALL sp_AdicionarLivro('Novo Livro', 2, 2022, 300, 2, @mensagem);
+-- Exibe a mensagem de retorno
+SELECT @mensagem;
