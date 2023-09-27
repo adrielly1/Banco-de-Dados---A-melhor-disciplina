@@ -27,3 +27,22 @@ CALL sp_LivrosPorCategoria('Ciência');
 CALL sp_LivrosPorCategoria('Ficção Científica');
 
 DELIMITER //
+
+    
+CREATE PROCEDURE sp_ContarLivrosPorCategoria(IN categoria_nome VARCHAR(100), OUT total_livros INT)
+BEGIN
+    SELECT COUNT(*) INTO total_livros
+    FROM Livro
+    INNER JOIN Categoria ON Livro.Categoria_ID = Categoria.Categoria_ID
+    WHERE Categoria.Nome = categoria_nome;
+END //
+
+DELIMITER ;
+
+-- Chama a stored procedure com a categoria "Romance"
+SET @resultado = 0;
+CALL sp_ContarLivrosPorCategoria('Romance', @resultado);
+-- Exibe o resultado
+SELECT @resultado;
+
+DELIMITER //
