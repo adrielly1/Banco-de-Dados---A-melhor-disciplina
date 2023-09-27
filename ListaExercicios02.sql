@@ -154,3 +154,21 @@ SELECT @mensagem;
 CALL sp_AdicionarLivro('Novo Livro', 2, 2022, 300, 2, @mensagem);
 -- Exibe a mensagem de retorno
 SELECT @mensagem;
+
+
+DELIMITER //
+
+CREATE PROCEDURE sp_AutorMaisAntigo(OUT nome_autor VARCHAR(255))
+BEGIN
+    SELECT CONCAT(Nome, ' ', Sobrenome) INTO nome_autor
+    FROM Autor
+    WHERE Data_Nascimento = (SELECT MIN(Data_Nascimento) FROM Autor);
+END //
+
+DELIMITER ;
+
+-- Chama a stored procedure para encontrar o autor mais antigo
+CALL sp_AutorMaisAntigo(@nome_autor);
+
+-- Exibe o nome do autor mais antigo
+SELECT @nome_autor;
